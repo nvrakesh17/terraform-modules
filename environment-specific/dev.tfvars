@@ -1,0 +1,9 @@
+cluster_name       = "dev-gke-cluster"
+region             = "us-central1"
+kubernetes_version = "1.26.6-gke.1800"
+network_name       = "dev-vpc"
+subnet_name        = "dev-subnet"
+ip_cidr_range      = "10.0.1.0/24"
+machine_type       = "e2-small"
+initial_node_count = 1
+disk_size          = 20
