@@ -14,7 +14,6 @@ terraform workspace new prod
 terraform workspace select dev
 
 
-
 Histroy
 terraform init
 terraform workspace select dev  # Or staging, prod
