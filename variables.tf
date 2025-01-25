@@ -1,20 +1,10 @@
 variable "project_id" {}
 variable "region" {}
-variable "cluster_name" {
-  default = "gke-cluster"
-}
-variable "node_pool_name" {
-  default = "default-pool"
-}
-variable "node_count" {
-  default = 1
-}
-variable "machine_type" {
-  default = "e2-micro"
-}
-variable "network_name" {
-  default = "gke-network"
-}
-variable "subnet_name" {
-  default = "gke-subnet"
-}
+variable "cluster_name" {}
+variable "kubernetes_version" { default = "1.26.6-gke.1800" }
+variable "network_name" {}
+variable "subnet_name" {}
+variable "ip_cidr_range" {}
+variable "machine_type" { default = "e2-medium" }
+variable "initial_node_count" { default = 1 }
+variable "disk_size" { default = 30 }
