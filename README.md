@@ -6,7 +6,8 @@ Create a Firestore Collection for Locking \
 
 Go to the Firestore Database in the GCP Console \
 
-Click "Start Collection" → Name it terraform-lock.
+Click "Start Collection" → Name it terraform-lock \
+
 Add a document with:
 Document ID: global (or a specific Terraform project name).
 Field: locked → Boolean → false.
