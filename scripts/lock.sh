@@ -1,9 +1,9 @@
 #!/bin/bash
+
 PROJECT_ID="your-gcp-project-id"
 COLLECTION="terraform-lock"
 DOCUMENT="global"
 
-# Check if locked
 LOCKED=$(gcloud firestore documents get $DOCUMENT --project=$PROJECT_ID --collection=$COLLECTION --format="value(fields.locked.booleanValue)")
 
 if [[ "$LOCKED" == "true" ]]; then

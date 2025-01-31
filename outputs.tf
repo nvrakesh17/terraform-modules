@@ -1,7 +1,9 @@
-output "cluster_endpoint" {
-  value = module.gke.endpoint
+output "firestore_collection" {
+  description = "Firestore collection for Terraform state locking"
+  value       = "terraform-lock"
 }
 
-output "kubeconfig" {
-  value = module.gke.kubeconfig
+output "gcs_bucket" {
+  description = "GCS bucket for Terraform state storage"
+  value       = google_storage_bucket.terraform_state.name
 }

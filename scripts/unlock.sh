@@ -1,4 +1,5 @@
 #!/bin/bash
+
 PROJECT_ID="your-gcp-project-id"
 COLLECTION="terraform-lock"
 DOCUMENT="global"

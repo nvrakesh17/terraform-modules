@@ -1,20 +1,15 @@
-variable "project_id" {}
-variable "region" {}
-variable "cluster_name" {
-  default = "gke-cluster"
+variable "project_id" {
+  description = "GCP Project ID"
+  type        = string
 }
-variable "node_pool_name" {
-  default = "default-pool"
+
+variable "firestore_location" {
+  description = "Location for Firestore (e.g., us-central1)"
+  type        = string
+  default     = "us-central1"
 }
-variable "node_count" {
-  default = 1
-}
-variable "machine_type" {
-  default = "e2-micro"
-}
-variable "network_name" {
-  default = "gke-network"
-}
-variable "subnet_name" {
-  default = "gke-subnet"
+
+variable "terraform_users" {
+  description = "List of Terraform users allowed to modify Firestore locks"
+  type        = list(string)
 }
