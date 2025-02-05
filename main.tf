@@ -1,26 +1,50 @@
-# Set provider
-provider "google" {
-  project = var.project_id
-  region  = var.region
+# ---------------------------------------------------------------------------------------------------------------------
+# ENABLED THE API SERVICE
+# ---------------------------------------------------------------------------------------------------------------------
+
+resource "google_project_service" "secretmanager" {
+  service = "secretmanager.googleapis.com"
 }
 
-# Call the network module
-module "network" {
-  source      = "./modules/network"
-  network_name = var.network_name
-  subnet_name  = var.subnet_name
-  region       = var.region
+# ----------------------------------------------------------------------------------------
+#     Create a random string 
+# ----------------------------------------------------------------------------------------
+
+resource "time_rotating" "sa_key_rotation" {
+  rotation_minutes = 5
 }
 
-# Call the GKE module
-module "gke" {
-  source          = "./modules/gke"
-  project_id      = var.project_id
-  region          = var.region
-  cluster_name    = var.cluster_name
-  network         = module.network.network_self_link
-  subnetwork      = module.network.subnet_self_link
-  node_pool_name  = var.node_pool_name
-  node_count      = var.node_count
-  machine_type    = var.machine_type
+resource "random_string" "secret_value" {
+  length  = 16
+  special = true
+  keepers = {
+    rotation_time = time_rotating.sa_key_rotation.rotation_rfc3339
+  }
 }
+
+
+# ----------------------------------------------------------------------------------------
+#     Create a secret in GCP Secret Manager
+# ----------------------------------------------------------------------------------------
+
+resource "google_secret_manager_secret" "db_password_secret" {
+  secret_id = "db-password-secret"
+
+  labels = {
+    secretmanager = "db_password"
+  }
+
+  replication {
+    auto {}
+  }
+}
+
+# ----------------------------------------------------------------------------------------
+#     Create a version of our secret
+# ----------------------------------------------------------------------------------------
+
+resource "google_secret_manager_secret_version" "secret-version-basic" {
+  secret      = google_secret_manager_secret.db_password_secret.id
+  secret_data = random_string.secret_value.result
+}
+
